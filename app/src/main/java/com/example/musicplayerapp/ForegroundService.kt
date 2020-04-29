@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.IBinder
@@ -37,7 +38,7 @@ class ForegroundService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         // TODO: Step 2.0 add style
-           //do heavy work on a background thread
+        //do heavy work on a background thread
         val input = intent?.getStringExtra("inputExtra")
         createNotificationChannel()
         val notificationIntent = Intent(this, MainActivity::class.java)
@@ -64,13 +65,16 @@ class ForegroundService : Service() {
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("My Music Player")
             .setContentText(input)
-            .setSmallIcon(R.drawable.ic_play)
+            .setSmallIcon(android.R.drawable.ic_btn_speak_now)
             .setContentIntent(pendingIntent)
             .addAction(R.drawable.ic_prev_foreground, "Previous", prevPendingIntent) // #0
             .addAction(R.drawable.ic_play_m, "Play", playPendingIntent) // #1
             .addAction(R.drawable.ic_next_foreground, "Next", nextPendingIntent) // #2
-            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_play))
-            .build()
+            //.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_play))
+            .setLargeIcon(BitmapFactory.decodeResource(getResources(), android.R.drawable.ic_btn_speak_now))
+            //.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_play))
+
+        .build()
 
 
         startForeground(1, notification)
