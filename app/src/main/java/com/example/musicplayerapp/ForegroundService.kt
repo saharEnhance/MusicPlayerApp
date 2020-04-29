@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
@@ -25,18 +26,18 @@ class ForegroundService : Service() {
             val startIntent = Intent(context, ForegroundService::class.java)
             startIntent.putExtra("inputExtra", message)
             ContextCompat.startForegroundService(context, startIntent)
+
         }
 
         fun stopService(context: Context) {
             val stopIntent = Intent(context, ForegroundService::class.java)
             context.stopService(stopIntent)
         }
-
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-        //do heavy work on a background thread
+        // TODO: Step 2.0 add style
+           //do heavy work on a background thread
         val input = intent?.getStringExtra("inputExtra")
         createNotificationChannel()
         val notificationIntent = Intent(this, MainActivity::class.java)
@@ -68,6 +69,7 @@ class ForegroundService : Service() {
             .addAction(R.drawable.ic_prev_foreground, "Previous", prevPendingIntent) // #0
             .addAction(R.drawable.ic_play_m, "Play", playPendingIntent) // #1
             .addAction(R.drawable.ic_next_foreground, "Next", nextPendingIntent) // #2
+            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_play))
             .build()
 
 
