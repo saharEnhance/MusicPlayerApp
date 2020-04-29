@@ -1,9 +1,6 @@
 package com.example.musicplayerapp
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -70,11 +67,17 @@ class ForegroundService : Service() {
             .addAction(R.drawable.ic_prev_foreground, "Previous", prevPendingIntent) // #0
             .addAction(R.drawable.ic_play_m, "Play", playPendingIntent) // #1
             .addAction(R.drawable.ic_next_foreground, "Next", nextPendingIntent) // #2
-            //.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_play))
-            .setLargeIcon(BitmapFactory.decodeResource(getResources(), android.R.drawable.ic_btn_speak_now))
-            //.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_play))
 
-        .build()
+            .setLargeIcon(
+                BitmapFactory.decodeResource(
+                    getResources(),
+                    android.R.drawable.ic_btn_speak_now
+                )
+            )
+            .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
+            .setDefaults(Notification.DEFAULT_SOUND)
+
+            .build()
 
 
         startForeground(1, notification)
