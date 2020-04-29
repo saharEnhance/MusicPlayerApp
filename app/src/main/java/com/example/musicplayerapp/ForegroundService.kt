@@ -6,8 +6,6 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
@@ -21,6 +19,7 @@ class ForegroundService : Service() {
     val bitmap = (drawable as BitmapDrawable?)!!.bitmap*/
 
     companion object {
+        val FILEPATH = "filepath"
 
         fun startService(context: Context, message: String) {
             val startIntent = Intent(context, ForegroundService::class.java)
@@ -42,7 +41,7 @@ class ForegroundService : Service() {
         createNotificationChannel()
         val notificationIntent = Intent(this, MainActivity::class.java)
 
-        //val playIntent = Intent(this, MainActivity::class.java)
+        val playIntent = Intent(this, MainActivity::class.java)
 
 
         val pendingIntent = PendingIntent.getActivity(
@@ -55,7 +54,7 @@ class ForegroundService : Service() {
         )
         val playPendingIntent = PendingIntent.getActivity(
             this,
-            0, notificationIntent, 0
+            0, playIntent, 0
         )
         val nextPendingIntent = PendingIntent.getActivity(
             this,
@@ -65,22 +64,12 @@ class ForegroundService : Service() {
             .setContentTitle("My Music Player")
             .setContentText(input)
             .setSmallIcon(R.drawable.ic_play)
-
             .setContentIntent(pendingIntent)
             .addAction(R.drawable.ic_prev_foreground, "Previous", prevPendingIntent) // #0
             .addAction(R.drawable.ic_play_m, "Play", playPendingIntent) // #1
-
-        .addAction(R.drawable.ic_next_foreground, "Next", nextPendingIntent) // #2
-            //  .setStyle(bigPicStyle)
-            // .setLargeIcon(play)
-            //.setLargeIcon(R.mipmap.ic_musical_play)
-            // .setStyle(NotificationCompat.BigPictureStyle()
-            //  .bigPicture(R.mipmap.ic_musical_play)
-            //  .bigLargeIcon(null))
-            //.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_music))
-            //.setLargeIcon(bitmap)
-
+            .addAction(R.drawable.ic_next_foreground, "Next", nextPendingIntent) // #2
             .build()
+
 
         startForeground(1, notification)
         //stopSelf();
@@ -99,26 +88,10 @@ class ForegroundService : Service() {
         }
     }
 
-
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
-    private fun NotificationCompat.BigPictureStyle.bigPicture(icMusicalPlay: Int) {
-
-    }
-
-    private fun NotificationCompat.Builder.setLargeIcon(icMusicalPlay: Int) {
-
-    }
 }
 
 
-/*
-val play = BitmapFactory.decodeResource(
-    Context.
-    R.mipmap.ic_musical_play
-)
-val bigPicStyle = NotificationCompat.BigPictureStyle()
-    .bigPicture(play)
-    .bigLargeIcon(null)*/
